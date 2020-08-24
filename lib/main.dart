@@ -34,30 +34,13 @@ class _QuizzPageState extends State<QuizzPage> {
   List<Icon> scoreKeeper = [];
 
   void reset() {
-    scoreKeeper.removeRange(0, scoreKeeper.length);
+    scoreKeeper = [];
     quizBrain.reset();
   }
 
   void checkAnswer(bool userPickedAnswer, bool correctAnswer) {
     setState(() {
-      if (userPickedAnswer == correctAnswer) {
-        scoreKeeper.add(
-          Icon(
-            Icons.check,
-            color: Colors.green,
-          ),
-        );
-      } else {
-        scoreKeeper.add(
-          Icon(
-            Icons.close,
-            color: Colors.red,
-          ),
-        );
-      }
-
       if (quizBrain.isFinished() == true) {
-        reset();
         Alert(
           context: context,
           title: 'Finished!',
@@ -75,7 +58,23 @@ class _QuizzPageState extends State<QuizzPage> {
             )
           ],
         ).show();
+        reset();
       } else {
+        if (userPickedAnswer == correctAnswer) {
+          scoreKeeper.add(
+            Icon(
+              Icons.check,
+              color: Colors.green,
+            ),
+          );
+        } else {
+          scoreKeeper.add(
+            Icon(
+              Icons.close,
+              color: Colors.red,
+            ),
+          );
+        }
         quizBrain.nextQuestion();
       }
     });
